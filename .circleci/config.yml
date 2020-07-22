@@ -10,20 +10,20 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }} 
 #      - run:
-#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#         command: sudo chmod +x ./gradlew
+#          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#          command: sudo chmod +x ./gradlew
       - run:
-        name: Download Dependencies
-        command: ./gradlew dependencies
+          name: Download Dependencies
+          command: ./gradlew dependencies
       - save_cache:
-        paths:
-          - ~/.gradle
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-        name: Run Lint & Tests
-        command: ./gradlew lint test
+          name: Run Lint & Tests
+          command: ./gradlew lint test
       - store_test_results:
-        path: ~/test-results
+          path: ~/test-results
 #      - store_artifacts:
-#        path: ~/test-results/junit
+#          path: ~/test-results/junit
 
