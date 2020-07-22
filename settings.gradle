@@ -1,0 +1,3 @@
+include ':Milenage'
+include ':app'
+rootProject.name = "MilenageDemo"
