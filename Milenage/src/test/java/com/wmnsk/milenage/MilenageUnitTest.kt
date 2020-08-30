@@ -1,7 +1,6 @@
 package com.wmnsk.milenage
 
 import org.junit.Test
-
 import org.junit.Assert.*
 
 /**
