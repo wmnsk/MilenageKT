@@ -1,33 +1,42 @@
 package com.wmnsk.milenage
 
+import android.annotation.SuppressLint
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import kotlin.experimental.xor
 
-class Milenage(
-    k: ByteArray,
+class Milenage @ExperimentalUnsignedTypes constructor(
+    // 128-bit
+    val k: ByteArray,
     op: ByteArray?,
     opc: ByteArray?,
-    rand: ByteArray,
+    // 128-bit
+    var rand: ByteArray,
     sqn: ULong,
-    amf: UShort
+    // 32-bit
+    var amf: UShort
 ) {
-    val k: ByteArray = k // 128-bit
     val op: ByteArray // 128-bit
     var opc: ByteArray // 128-bit
 
-    var rand: ByteArray = rand // 128-bit
-
     var sqn: ByteArray // 48-bit
-    var amf: UShort = amf // 32-bit
+
+    var macA: ByteArray = ByteArray(0)
+    var macS: ByteArray = ByteArray(0)
+
+    var res: ByteArray = ByteArray(0)
+    var ck: ByteArray = ByteArray(0)
+    var ik: ByteArray = ByteArray(0)
+    var ak: ByteArray = ByteArray(0)
+    var aks: ByteArray = ByteArray(0)
 
     init {
         require(op != null || opc != null) { "Either of op or opc should be given." }
 
-        this.opc = ByteArray(16)
+        //this.opc = ByteArray(16)
 
         if (op != null) {
-            this.op = op!!
+            this.op = op
             this.opc = computeOPc()
         } else { // opc should be set
             this.op = ByteArray(16)
@@ -38,18 +47,18 @@ class Milenage(
     }
 
     private fun f1base(): ByteArray {
-        var rijndaelInput: ByteArray = ByteArray(16)
+        val rijndaelInput = ByteArray(16)
         for (i in 0 until 16) {
             rijndaelInput[i] = rand[i] xor this.opc[i]
         }
 
-        var temp: ByteArray = try {
+        val temp: ByteArray = try {
             encrypt(this.k, rijndaelInput)
         } catch (e: Throwable) {
             throw e
         }
 
-        var in1 = ByteArray(16)
+        val in1 = ByteArray(16)
         for (i in 0 until 6) {
             in1[i] = this.sqn[i]
             in1[i + 8] = this.sqn[i]
@@ -80,52 +89,55 @@ class Milenage(
         return xor(out, this.opc)
     }
 
+    @SuppressLint("GetInstance")
     private fun computeOPc(): ByteArray {
         val cipher = Cipher.getInstance("AES/ECB/NoPadding")
         val k = SecretKeySpec(this.k, "AES")
         cipher.init(Cipher.ENCRYPT_MODE, k)
         val cipherText: ByteArray = cipher.doFinal(this.op)
 
-        var bytes: ByteArray = xor(cipherText , this.op)
-        this.opc = bytes
-        return bytes
+        val opc = xor(cipherText , this.op)
+        this.opc = opc
+        return opc
     }
 
     fun f1(): ByteArray {
-        var mac: ByteArray = try {
+        val mac: ByteArray = try {
             this.f1base()
         } catch (e: Throwable) {
             throw e
         }
 
-        var maca = ByteArray(8)
+        val macA = ByteArray(8)
         for (i in 0 until 8) {
-            maca[i] = mac[i]
+            macA[i] = mac[i]
         }
-        return maca
+        this.macA = macA
+        return macA
     }
 
     fun f1star(): ByteArray {
-        var mac: ByteArray = try {
+        val mac: ByteArray = try {
             this.f1base()
         } catch (e: Throwable) {
             throw e
         }
 
-        var macs = ByteArray(8)
+        val macS = ByteArray(8)
         for (i in 8 until 16) {
-            macs[i-8] = mac[i]
+            macS[i-8] = mac[i]
         }
-        return macs
+        this.macS = macS
+        return macS
     }
 
     fun f2345(): Array<ByteArray> {
-        var rijndaelInput = ByteArray(16)
+        val rijndaelInput = ByteArray(16)
         for (i in 0 until 16) {
             rijndaelInput[i] = rand[i] xor this.opc[i]
         }
 
-        var temp: ByteArray = try {
+        val temp: ByteArray = try {
             encrypt(this.k, rijndaelInput)
         } catch (e: Throwable) {
             throw e
@@ -145,15 +157,17 @@ class Milenage(
         }
         out = xor(out, this.opc)
 
-        var res = ByteArray(8)
+        val res = ByteArray(8)
         for (i in 0 until 8) {
             res[i] = out[i + 8]
         }
+        this.res = res
 
-        var ak = ByteArray(6)
+        val ak = ByteArray(6)
         for (i in 0 until 6) {
             ak[i] = out[i]
         }
+        this.ak = ak
 
         // To obtain output block OUT3: XOR OPc and TEMP, rotate by r3=32, and XOR on the
         // constant c3 (which is all zeroes except that the next to last bit is 1).
@@ -162,7 +176,7 @@ class Milenage(
         }
         rijndaelInput[15] = (rijndaelInput[15] xor 2)
 
-        var ck = ByteArray(16)
+        val ck = ByteArray(16)
         out = try {
             encrypt(this.k, rijndaelInput)
         } catch (e: Throwable) {
@@ -173,6 +187,7 @@ class Milenage(
         for (i in 0 until 16) {
             ck[i] = out[i]
         }
+        this.ck = ck
 
         // To obtain output block OUT4: XOR OPc and TEMP, rotate by r4=64, and XOR on the
         // constant c4 (which is all zeroes except that the 2nd from last bit is 1).
@@ -181,7 +196,7 @@ class Milenage(
         }
         rijndaelInput[15] = (rijndaelInput[15] xor 4)
 
-        var ik = ByteArray(16)
+        val ik = ByteArray(16)
         out = try {
             encrypt(this.k, rijndaelInput)
         } catch (e: Throwable) {
@@ -192,17 +207,18 @@ class Milenage(
         for (i in 0 until 16) {
             ik[i] = out[i]
         }
+        this.ik = ik
 
         return arrayOf(res, ck, ik, ak)
     }
 
     fun f5star(rand: ByteArray): ByteArray {
-        var rijndaelInput = ByteArray(16)
+        val rijndaelInput = ByteArray(16)
         for (i in 0 until 16) {
             rijndaelInput[i] = rand[i] xor this.opc[i]
         }
 
-        var temp: ByteArray = try {
+        val temp: ByteArray = try {
             encrypt(this.k, rijndaelInput)
         } catch (e: Throwable) {
             throw e
@@ -222,15 +238,17 @@ class Milenage(
         }
         out = xor(out, this.opc)
 
-        var aks = ByteArray(6)
+        val aks = ByteArray(6)
         for (i in 0 until 6) {
             aks[i] = out[i]
         }
+        this.aks = aks
 
         return aks
     }
 }
 
+@SuppressLint("GetInstance")
 fun encrypt(key: ByteArray, plain: ByteArray): ByteArray {
     val cipher = Cipher.getInstance("AES/ECB/NoPadding")
     val k = SecretKeySpec(key, "AES")
@@ -239,15 +257,14 @@ fun encrypt(key: ByteArray, plain: ByteArray): ByteArray {
 }
 
 fun xor(b1: ByteArray, b2: ByteArray): ByteArray {
-    var l: Int = if (b1.size - b2.size < 0) {
+    val l: Int = if (b1.size - b2.size < 0) {
         b1.size
     } else {
         b2.size
     }
 
-    var x = b1
     for (i in 0 until l) {
-        x[i] = (x[i] xor b2[i])
+        b1[i] = (b1[i] xor b2[i])
     }
-    return x
+    return b1
 }

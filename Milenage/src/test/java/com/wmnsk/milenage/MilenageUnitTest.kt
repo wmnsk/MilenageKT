@@ -6,6 +6,7 @@ import org.junit.Assert.*
 /**
  * MilenageUnitTest is to test each functions in Milenage class.
  */
+@ExperimentalUnsignedTypes
 class MilenageUnitTest {
     @Test
     fun milenage_initWithOP() {
@@ -26,20 +27,28 @@ class MilenageUnitTest {
         assertEquals(mil.sqn.toHexString(), "000000000001")
         assertEquals(uShortToByteArray(mil.amf).toHexString(), "8000")
 
-        val maca = mil.f1()
-        assertEquals(maca.toHexString(), "4af30b82a8531115")
+        val macA = mil.f1()
+        assertEquals(macA.toHexString(), "4af30b82a8531115")
+        assertEquals(mil.macA.toHexString(), "4af30b82a8531115")
 
-        val macs = mil.f1star()
-        assertEquals(macs.toHexString(), "23fc01ba24031362")
+        val macS = mil.f1star()
+        assertEquals(macS.toHexString(), "23fc01ba24031362")
+        assertEquals(mil.macS.toHexString(), "23fc01ba24031362")
 
         val v2345 = mil.f2345()
         assertEquals(v2345[0].toHexString(), "700eb2300b2c4799")
         assertEquals(v2345[1].toHexString(), "b379874b3d183d2a21291d439e7761e1")
         assertEquals(v2345[2].toHexString(), "f4706f66629cf7ddf881d80025bf1255")
         assertEquals(v2345[3].toHexString(), "de656c8b0bce")
+        assertEquals(mil.res.toHexString(), "700eb2300b2c4799")
+        assertEquals(mil.ck.toHexString(), "b379874b3d183d2a21291d439e7761e1")
+        assertEquals(mil.ik.toHexString(), "f4706f66629cf7ddf881d80025bf1255")
+        assertEquals(mil.ak.toHexString(), "de656c8b0bce")
+
 
         val aks = mil.f5star(hexStringToByteArray("00112233445566778899aabbccddeeff"))
         assertEquals(aks.toHexString(), "b9ac50c48a83")
+        assertEquals(mil.aks.toHexString(), "b9ac50c48a83")
     }
 
     @Test
@@ -61,19 +70,26 @@ class MilenageUnitTest {
         assertEquals(mil.sqn.toHexString(), "000000000001")
         assertEquals(uShortToByteArray(mil.amf).toHexString(), "8000")
 
-        val maca = mil.f1()
-        assertEquals(maca.toHexString(), "4af30b82a8531115")
+        val macA = mil.f1()
+        assertEquals(macA.toHexString(), "4af30b82a8531115")
+        assertEquals(mil.macA.toHexString(), "4af30b82a8531115")
 
-        val macs = mil.f1star()
-        assertEquals(macs.toHexString(), "23fc01ba24031362")
+        val macS = mil.f1star()
+        assertEquals(macS.toHexString(), "23fc01ba24031362")
+        assertEquals(mil.macS.toHexString(), "23fc01ba24031362")
 
         val v2345 = mil.f2345()
         assertEquals(v2345[0].toHexString(), "700eb2300b2c4799")
         assertEquals(v2345[1].toHexString(), "b379874b3d183d2a21291d439e7761e1")
         assertEquals(v2345[2].toHexString(), "f4706f66629cf7ddf881d80025bf1255")
         assertEquals(v2345[3].toHexString(), "de656c8b0bce")
+        assertEquals(mil.res.toHexString(), "700eb2300b2c4799")
+        assertEquals(mil.ck.toHexString(), "b379874b3d183d2a21291d439e7761e1")
+        assertEquals(mil.ik.toHexString(), "f4706f66629cf7ddf881d80025bf1255")
+        assertEquals(mil.ak.toHexString(), "de656c8b0bce")
 
         val aks = mil.f5star(hexStringToByteArray("00112233445566778899aabbccddeeff"))
         assertEquals(aks.toHexString(), "b9ac50c48a83")
+        assertEquals(mil.aks.toHexString(), "b9ac50c48a83")
     }
 }
