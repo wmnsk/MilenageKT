@@ -38,14 +38,33 @@ On the subscriber(UE) side:
 Get MAC-A and MAC-S.
 
 ```kotlin
-    val maca = mil.f1() // returns MAC-A in ByteArray
-    val macs = mil.f1star() // returns MAC-S in ByteArray
+    val macA = mil.f1()     // returns MAC-A in ByteArray
+    val macS = mil.f1star() // returns MAC-S in ByteArray
+
+    // `mil` stores the values, too
+    mil.macA == macA // true
+    mil.macS == macS // true
 ```
 
 Get RES, CK, IK, AK.
 
 ```kotlin
     val v2345 = mil.f2345() // returns RES, CK, IK, AK in Array<ByteArray>
+
+    // `mil` stores the values, too
+    mil.res == v2345[0] // true
+    mil.ck == v2345[1]  // true
+    mil.ik == v2345[2]  // true
+    mil.ak == v2345[3]  // true
+```
+
+Get 5G RES*. Note that this should be run _after_ everything is calculated.
+
+```kotlin
+    val resStar = mil.computeResStar() // returns RES* in ByteArray
+
+    // `mil` stores the values, too
+    mil.resStar == resStar // true
 ```
 
 ## Disclaimer
