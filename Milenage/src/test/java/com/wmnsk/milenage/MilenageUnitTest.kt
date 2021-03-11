@@ -8,6 +8,8 @@ import org.junit.Assert.*
  */
 @ExperimentalUnsignedTypes
 class MilenageUnitTest {
+    // TODO: cleanup duplicated codes.
+    // TODO: swap 'expected' and 'actual'.
     @Test
     fun milenage_initWithOP() {
         val mil = Milenage(
@@ -49,6 +51,10 @@ class MilenageUnitTest {
         val aks = mil.f5star(hexStringToByteArray("00112233445566778899aabbccddeeff"))
         assertEquals(aks.toHexString(), "b9ac50c48a83")
         assertEquals(mil.aks.toHexString(), "b9ac50c48a83")
+
+        val resStar = mil.computeResStar("001", "01")
+        assertEquals(resStar.toHexString(), "31b6d938a5290ccc65bc829f9820a8d9")
+        assertEquals(mil.resStar.toHexString(), "31b6d938a5290ccc65bc829f9820a8d9")
     }
 
     @Test
@@ -91,5 +97,9 @@ class MilenageUnitTest {
         val aks = mil.f5star(hexStringToByteArray("00112233445566778899aabbccddeeff"))
         assertEquals(aks.toHexString(), "b9ac50c48a83")
         assertEquals(mil.aks.toHexString(), "b9ac50c48a83")
+
+        val resStar = mil.computeResStar("001", "01")
+        assertEquals(resStar.toHexString(), "31b6d938a5290ccc65bc829f9820a8d9")
+        assertEquals(mil.resStar.toHexString(), "31b6d938a5290ccc65bc829f9820a8d9")
     }
 }

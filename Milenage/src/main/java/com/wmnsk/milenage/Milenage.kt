@@ -3,23 +3,22 @@ package com.wmnsk.milenage
 import android.annotation.SuppressLint
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Mac
 import kotlin.experimental.xor
 
+@ExperimentalUnsignedTypes
 class Milenage @ExperimentalUnsignedTypes constructor(
-    // 128-bit
     val k: ByteArray,
     op: ByteArray?,
     opc: ByteArray?,
-    // 128-bit
     var rand: ByteArray,
     sqn: ULong,
-    // 32-bit
     var amf: UShort
 ) {
-    val op: ByteArray // 128-bit
-    var opc: ByteArray // 128-bit
+    val op: ByteArray
+    var opc: ByteArray
 
-    var sqn: ByteArray // 48-bit
+    var sqn: ByteArray
 
     var macA: ByteArray = ByteArray(0)
     var macS: ByteArray = ByteArray(0)
@@ -29,6 +28,7 @@ class Milenage @ExperimentalUnsignedTypes constructor(
     var ik: ByteArray = ByteArray(0)
     var ak: ByteArray = ByteArray(0)
     var aks: ByteArray = ByteArray(0)
+    var resStar: ByteArray = ByteArray(0)
 
     init {
         require(op != null || opc != null) { "Either of op or opc should be given." }
@@ -245,6 +245,49 @@ class Milenage @ExperimentalUnsignedTypes constructor(
         this.aks = aks
 
         return aks
+    }
+
+    fun computeResStar(mcc: String, mnc: String): ByteArray {
+        if (mcc.length != 3) {
+            throw IllegalArgumentException("invalid MCC: %s".format(mcc))
+        }
+
+        val n = when {
+            mnc.length == 2 -> {
+                "0$mnc"
+            }
+            mnc.length != 3 -> {
+                throw IllegalArgumentException("invalid MNC: %s".format(mnc))
+            }
+            else -> {
+                mnc
+            }
+        }
+
+        val snn = "5G:mnc%s.mcc%s.3gppnetwork.org".format(n, mcc).toByteArray()
+
+        var b = ByteArray(1)
+        b[0] = 0x6b
+
+        b += snn
+        b += uShortToByteArray(0x20u.toUShort())
+
+        b += this.rand
+        b += uShortToByteArray(0x10u.toUShort())
+
+        b += this.res
+        b += uShortToByteArray(0x08u.toUShort())
+
+        val k = this.ck + this.ik
+
+        val algo = "HmacSHA256"
+        val mac = Mac.getInstance(algo)
+        val spec = SecretKeySpec(k, algo)
+        mac.init(spec)
+
+        val out = mac.doFinal(b)
+        this.resStar = out.copyOfRange(16, out.size)
+        return this.resStar
     }
 }
 
