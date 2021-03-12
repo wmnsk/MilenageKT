@@ -2,6 +2,8 @@
 
 A MILENAGE algorithm implementation in Kotlin.
 
+[![](https://jitpack.io/v/wmnsk/MilenageKT.svg)](https://jitpack.io/#wmnsk/MilenageKT)
+
 This project currently provides only a Kotlin-based Android library.
 Some demo App with minimal GUI will hopefully be available in the future...?
 
