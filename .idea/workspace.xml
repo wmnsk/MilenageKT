@@ -9,9 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e1aa2b1-3431-4c7d-b3a7-1982c1fa1642" name="Default Changelist" comment="">
+    <list default="true" id="8e1aa2b1-3431-4c7d-b3a7-1982c1fa1642" name="Default Changelist" comment="Cleanup tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/test/kotlin/com/wmnsk/milenage/MilenageUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/kotlin/com/wmnsk/milenage/MilenageUnitTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,6 +210,14 @@
       <option name="presentableId" value="Default" />
       <updated>1626442406441</updated>
     </task>
+    <task id="LOCAL-00001" summary="Cleanup tests">
+      <created>1626460149217</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1626460149217</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -224,5 +231,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Cleanup tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup tests" />
   </component>
 </project>
