@@ -15,8 +15,11 @@ plugins {
     `maven-publish`
 }
 
-group = "com.wmnsk"
-version = "0.2.1"
+val g = "com.wmnsk"
+val v = "0.2.4"
+
+group = g
+version = v
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -47,9 +50,9 @@ afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                groupId = "com.wmnsk"
+                groupId = g
                 artifactId = "milenage"
-                version = "0.2.2"
+                version = v
 
                 from(components["java"])
             }
