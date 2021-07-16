@@ -12,10 +12,11 @@ plugins {
 
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
 }
 
 group = "com.wmnsk"
-version = "0.2.0"
+version = "0.2.1"
 
 repositories {
     // Use Maven Central for resolving dependencies.
