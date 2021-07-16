@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="16">
+      <module name="MilenageKT.commonMain" target="1.8" />
+      <module name="MilenageKT.commonTest" target="1.8" />
+      <module name="MilenageKT.jvmMain" target="1.8" />
+      <module name="MilenageKT.jvmTest" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
