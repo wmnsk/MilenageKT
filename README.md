@@ -2,7 +2,8 @@
 
 A MILENAGE algorithm implementation in Kotlin.
 
-[![](https://jitpack.io/v/wmnsk/MilenageKT.svg)](https://jitpack.io/#wmnsk/MilenageKT)
+[![](https://jitpack.io/v/wmnsk/MilenageKT.svg)](https://jitpack.io/#wmnsk/MilenageKT) 
+[![Kotlin Test](https://github.com/wmnsk/MilenageKT/actions/workflows/gradlew-test.yaml/badge.svg)](https://github.com/wmnsk/MilenageKT/actions/workflows/gradlew-test.yaml)
 
 _At v0.2.0, we removed the Android-specific dependencies by re-initializing the project with gradle.
 If you find any inconvenience using this library from your application, please let us know._
