@@ -9,7 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e1aa2b1-3431-4c7d-b3a7-1982c1fa1642" name="Default Changelist" comment="" />
+    <list default="true" id="8e1aa2b1-3431-4c7d-b3a7-1982c1fa1642" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/test/kotlin/com/wmnsk/milenage/MilenageUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/test/kotlin/com/wmnsk/milenage/MilenageUnitTest.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,6 +152,27 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="MilenageUnitTest.milenage_initWithOP" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;com.wmnsk.milenage.MilenageUnitTest.milenage_initWithOP&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":lib:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="MilenageKT" />
       <method v="2">
@@ -172,6 +196,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MilenageUnitTest" />
+        <item itemvalue="Gradle.MilenageUnitTest.milenage_initWithOP" />
         <item itemvalue="Gradle.LibraryTest" />
         <item itemvalue="Kotlin script.build.gradle.kts" />
       </list>
