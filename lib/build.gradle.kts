@@ -42,3 +42,17 @@ dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api("org.apache.commons:commons-math3:3.6.1")
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "com.wmnsk"
+                artifactId = "milenage"
+                version = "0.2.2"
+
+                from(components["java"])
+            }
+        }
+    }
+}
